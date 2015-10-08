@@ -381,7 +381,7 @@ class Connection(object):
                  retry_on_timeout=False, encoding='utf-8',
                  encoding_errors='strict', decode_responses=False,
                  parser_class=DefaultParser, socket_read_size=65536,
-                 socket_reuseaddr=False):
+                 socket_reuseaddr=False, socket_reuseport=False):
         self.pid = os.getpid()
         self.host = host
         self.port = int(port)
@@ -392,6 +392,7 @@ class Connection(object):
         self.socket_keepalive = socket_keepalive
         self.socket_keepalive_options = socket_keepalive_options or {}
         self.socket_reuseaddr = socket_reuseaddr
+        self.socket_reuseport = socket_reuseport
         self.retry_on_timeout = retry_on_timeout
         self.encoding = encoding
         self.encoding_errors = encoding_errors
@@ -467,6 +468,9 @@ class Connection(object):
                 # Reuse sockets in TIME_WAIT state
                 if self.socket_reuseaddr:
                     sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+
+                if self.socket_reuseport:
+                    sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEPORT, 1)
 
                 # set the socket_connect_timeout before we connect
                 sock.settimeout(self.socket_connect_timeout)

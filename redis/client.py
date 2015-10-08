@@ -401,7 +401,7 @@ class StrictRedis(object):
                  decode_responses=False, retry_on_timeout=False,
                  ssl=False, ssl_keyfile=None, ssl_certfile=None,
                  ssl_cert_reqs=None, ssl_ca_certs=None,
-                 socket_reuseaddr=False):
+                 socket_reuseaddr=False, socket_reuseport=False):
         if not connection_pool:
             if charset is not None:
                 warnings.warn(DeprecationWarning(
@@ -435,7 +435,8 @@ class StrictRedis(object):
                     'socket_connect_timeout': socket_connect_timeout,
                     'socket_keepalive': socket_keepalive,
                     'socket_keepalive_options': socket_keepalive_options,
-                    'socket_reuseaddr': socket_reuseaddr
+                    'socket_reuseaddr': socket_reuseaddr,
+                    'socket_reuseport': socket_reuseport
                 })
 
                 if ssl:
